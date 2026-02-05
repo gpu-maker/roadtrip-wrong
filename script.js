@@ -10,7 +10,6 @@ let game = {
     water: 0,
     metal: 0,
     meat: 0,
-    bandage: 0,
     weapon: 0
   }
 };
@@ -22,8 +21,6 @@ function updateUI() {
   location.textContent = game.location;
   time.textContent = game.day ? "DAY" : "NIGHT";
 
-  document.body.className = game.day ? "" : "night";
-
   inventory.innerHTML = "";
   for (let i in game.inventory) {
     if (game.inventory[i] > 0) {
@@ -33,14 +30,20 @@ function updateUI() {
     }
   }
 
-  if (game.thirst <= 0) game.health -= 4;
-  if (game.health <= 0) endGame("YOU DIED IN THE FOREST");
+  if (game.thirst <= 0) takeDamage(4);
+  if (game.health <= 0) endGame("YOU DIED");
   if (game.carRepair >= 100) endGame("YOU ESCAPED");
 }
 
 function logMsg(text, danger=false) {
   log.textContent = text;
   (danger ? dangerSound : clickSound).play();
+}
+
+function takeDamage(amount) {
+  game.health -= amount;
+  damageFlash.classList.add("flash");
+  setTimeout(() => damageFlash.classList.remove("flash"), 300);
 }
 
 function move(place) {
@@ -59,7 +62,7 @@ function gather() {
   if (game.location === "River") game.inventory.water++;
   if (game.location === "Clearing") game.inventory.metal++;
 
-  logMsg("YOU GATHER RESOURCES");
+  logMsg("RESOURCES FOUND");
   tick();
 }
 
@@ -72,7 +75,7 @@ function hunt() {
     game.inventory.meat++;
     logMsg("HUNT SUCCESS");
   } else {
-    game.health -= 15;
+    takeDamage(15);
     logMsg("YOU WERE INJURED", true);
   }
   tick();
@@ -87,16 +90,16 @@ function rest() {
 }
 
 function craft(item) {
-  if (item === "bandage" && game.inventory.wood >= 1) {
-    game.inventory.wood--;
-    game.health += 15;
-    logMsg("BANDAGE USED");
-  }
-  else if (item === "weapon" && game.inventory.wood >= 2 && game.inventory.metal >= 1) {
+  if (item === "weapon" && game.inventory.wood >= 2 && game.inventory.metal >= 1) {
     game.inventory.wood -= 2;
     game.inventory.metal--;
     game.inventory.weapon++;
     logMsg("WEAPON CRAFTED");
+  }
+  else if (item === "bandage" && game.inventory.wood >= 1) {
+    game.inventory.wood--;
+    game.health += 15;
+    logMsg("BANDAGE USED");
   }
   else if (item === "repair" && game.location === "Wreck" && game.inventory.metal >= 2) {
     game.inventory.metal -= 2;
@@ -110,12 +113,10 @@ function craft(item) {
 
 function tick() {
   game.day = !game.day;
-
   if (!game.day && Math.random() < 0.4) {
-    game.health -= 20;
+    takeDamage(20);
     logMsg("SOMETHING ATTACKS", true);
   }
-
   updateUI();
 }
 
@@ -126,7 +127,7 @@ function saveGame() {
 
 function loadGame() {
   let save = localStorage.getItem("pixelRoadtrip");
-  if (!save) return logMsg("NO SAVE FOUND");
+  if (!save) return logMsg("NO SAVE");
   game = JSON.parse(save);
   logMsg("GAME LOADED");
   updateUI();
