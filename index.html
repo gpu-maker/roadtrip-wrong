@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Broken Roadtrip</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="game">
+  <h1>🚗 BROKEN ROADTRIP</h1>
+  <div id="time">DAY</div>
+
+  <div id="stats">
+    <div>HP <span id="health"></span></div>
+    <div>EN <span id="energy"></span></div>
+    <div>TH <span id="thirst"></span></div>
+  </div>
+
+  <div id="locationBox">
+    LOCATION: <span id="location"></span>
+  </div>
+
+  <div class="panel">
+    <button onclick="move('Forest')">FOREST</button>
+    <button onclick="move('River')">RIVER</button>
+    <button onclick="move('Clearing')">CLEARING</button>
+    <button onclick="move('Wreck')">WRECK</button>
+  </div>
+
+  <div class="panel">
+    <button onclick="gather()">GATHER</button>
+    <button onclick="hunt()">HUNT</button>
+    <button onclick="rest()">REST</button>
+  </div>
+
+  <div class="panel">
+    <button onclick="craft('bandage')">BANDAGE</button>
+    <button onclick="craft('weapon')">WEAPON</button>
+    <button onclick="craft('repair')">REPAIR CAR</button>
+  </div>
+
+  <div id="inventoryBox">
+    <h2>INVENTORY</h2>
+    <ul id="inventory"></ul>
+  </div>
+
+  <div class="panel">
+    <button onclick="saveGame()">SAVE</button>
+    <button onclick="loadGame()">LOAD</button>
+  </div>
+
+  <div id="log"></div>
+</div>
+
+<audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3b1b6e8e4a.mp3"></audio>
+<audio id="dangerSound" src="https://cdn.pixabay.com/audio/2022/02/23/audio_94c4b9a9bb.mp3"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
