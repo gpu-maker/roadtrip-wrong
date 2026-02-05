@@ -7,14 +7,16 @@
 </head>
 <body>
 
+<div id="damageFlash"></div>
+
 <div id="game">
-  <h1>🚗 BROKEN ROADTRIP</h1>
+  <h1>BROKEN ROADTRIP</h1>
   <div id="time">DAY</div>
 
   <div id="stats">
     <div>HP <span id="health"></span></div>
     <div>EN <span id="energy"></span></div>
-    <div>TH <span id="thirst"></span></div>
+    <div class="thirst">TH <span id="thirst"></span></div>
   </div>
 
   <div id="locationBox">
@@ -37,7 +39,7 @@
   <div class="panel">
     <button onclick="craft('bandage')">BANDAGE</button>
     <button onclick="craft('weapon')">WEAPON</button>
-    <button onclick="craft('repair')">REPAIR CAR</button>
+    <button onclick="craft('repair')">REPAIR</button>
   </div>
 
   <div id="inventoryBox">
